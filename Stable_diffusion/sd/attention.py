@@ -6,9 +6,9 @@ import math
 class SelfAttention(nn.Module):
     def __init__(self, n_heads, d_embed, in_proj_bias=True, out_proj_bias=True):
         super().__init__()
-        # This combines the Wq, Wk and Wv matrices into one matrix
+        
         self.in_proj = nn.Linear(d_embed, 3 * d_embed, bias=in_proj_bias)
-        # This one represents the Wo matrix
+        
         self.out_proj = nn.Linear(d_embed, d_embed, bias=out_proj_bias)
         self.n_heads = n_heads
         self.d_head = d_embed // n_heads
@@ -37,9 +37,9 @@ class SelfAttention(nn.Module):
         weight = q @ k.transpose(-1, -2)
         
         if causal_mask:
-            # Mask where the upper triangle (above the principal diagonal) is 1
+            
             mask = torch.ones_like(weight, dtype=torch.bool).triu(1) 
-            # Fill the upper triangle with -inf
+            
             weight.masked_fill_(mask, -torch.inf) 
         
         # Divide by d_k (Dim / H). 
