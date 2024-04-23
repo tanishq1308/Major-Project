@@ -10,6 +10,7 @@ class AppDetails(BaseModel):
 
 class PromptQuery(BaseModel):
     prompt: str
+    negative_prompt: str
 
 
 class OutfitResponse(BaseModel):

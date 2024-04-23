@@ -1,6 +1,7 @@
 """
 main code for FastAPI setup
 """
+
 import uvicorn
 import sys
 
@@ -49,7 +50,7 @@ def get_app_info() -> AppDetails:
 
 @app.post("/outfit", status_code=200, tags=["outfits"])
 def generate_outfit(payload: PromptQuery):
-    if response := Api().outfit_generate(prompt=payload.prompt):
+    if response := Api().outfit_generate(payload=payload):
         return response.get("response")
     else:
         raise HTTPException(status_code=400, detail="Error")

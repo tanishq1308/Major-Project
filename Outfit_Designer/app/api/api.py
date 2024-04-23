@@ -1,4 +1,5 @@
 import sys
+from app.models.models import PromptQuery
 
 sys.path.append("../")
 
@@ -24,8 +25,10 @@ class Api:
         }
 
     @staticmethod
-    def outfit_generate(prompt: str) -> list:
-        images = Outfits(prompt=prompt).getOutfit()
+    def outfit_generate(payload: PromptQuery) -> list:
+        images = Outfits(
+            prompt=payload.prompt, negative_prompt=payload.negative_prompt
+        ).getOutfit()
 
         return {"response": images}
 
