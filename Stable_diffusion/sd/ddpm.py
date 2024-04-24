@@ -70,27 +70,24 @@ class DDPMSampler:
         current_alpha_t = alpha_prod_t / alpha_prod_t_prev
         current_beta_t = 1 - current_alpha_t
 
-        # 2. compute predicted original sample from predicted noise also called
-        # "predicted x_0" of formula (15) from https://arxiv.org/pdf/2006.11239.pdf
+        # 2. compute predicted original sample from predicted noise
         pred_original_sample = (
             latents - beta_prod_t ** (0.5) * model_output
         ) / alpha_prod_t ** (0.5)
 
-        # 4. Compute coefficients for pred_original_sample x_0 and current sample x_t
-        # See formula (7) from https://arxiv.org/pdf/2006.11239.pdf
+        # 3. Compute coefficients for pred_original_sample x_0 and current sample x_t
         pred_original_sample_coeff = (
             alpha_prod_t_prev ** (0.5) * current_beta_t
         ) / beta_prod_t
         current_sample_coeff = current_alpha_t ** (0.5) * beta_prod_t_prev / beta_prod_t
 
-        # 5. Compute predicted previous sample µ_t
-        # See formula (7) from https://arxiv.org/pdf/2006.11239.pdf
+        # 4. Compute predicted previous sample µ_t
         pred_prev_sample = (
             pred_original_sample_coeff * pred_original_sample
             + current_sample_coeff * latents
         )
 
-        # 6. Add noise
+        # 5. Add noise
         variance = 0
         if t > 0:
             device = model_output.device
@@ -100,7 +97,7 @@ class DDPMSampler:
                 device=device,
                 dtype=model_output.dtype,
             )
-            # Compute the variance as per formula (7) from https://arxiv.org/pdf/2006.11239.pdf
+            # Compute the variance
             variance = (self._get_variance(t) ** 0.5) * noise
 
         # sample from N(mu, sigma) = X can be obtained by X = mu + sigma * N(0, 1)

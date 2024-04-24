@@ -23,7 +23,7 @@ class VAE_AttentionBlock(nn.Module):
         # (Batch_Size, Features, Height, Width) -> (Batch_Size, Features, Height * Width)
         x = x.view((n, c, h * w))
 
-        # (Batch_Size, Features, Height * Width) -> (Batch_Size, Height * Width, Features). Each pixel becomes a feature of size "Features", the sequence length is "Height * Width".
+        # (Batch_Size, Features, Height * Width) -> (Batch_Size, Height * Width, Features).
         x = x.transpose(-1, -2)
 
         # Perform self-attention WITHOUT mask
@@ -147,7 +147,6 @@ class VAE_Decoder(nn.Sequential):
     def forward(self, x):
         # x: (Batch_Size, 4, Height / 8, Width / 8)
 
-        # Remove the scaling added by the Encoder.
         x /= 0.18215
 
         for module in self:
