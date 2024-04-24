@@ -7,6 +7,7 @@ import sys
 
 sys.path.append("../")
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
 from app.api.api import Api
 from app.models.models import AppDetails
 from app.models.models import PromptQuery
@@ -51,7 +52,9 @@ def get_app_info() -> AppDetails:
 @app.post("/outfit", status_code=200, tags=["outfits"])
 def generate_outfit(payload: PromptQuery):
     if response := Api().outfit_generate(payload=payload):
-        return response.get("response")
+        return FileResponse(
+            "/Users/tanishqkakkar/MNIT/Sem-8/Major Project/Outfit_Designer/app/assets/output/outfit.jpg"
+        )
     else:
         raise HTTPException(status_code=400, detail="Error")
 
