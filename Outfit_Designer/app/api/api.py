@@ -34,4 +34,8 @@ class Api:
 
 
 if __name__ == "__main__":
-    print(Api().outfit_generate(prompt="red jeans for mens"))
+    print(
+        Api().outfit_generate(
+            PromptQuery(prompt="red jeans for mens", negative_prompt="")
+        )
+    )

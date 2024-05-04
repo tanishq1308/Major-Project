@@ -79,7 +79,7 @@ class Outfits:
 
         # Initialize Sampler
         self.sampler = "ddpm"
-        self.num_inference_steps = 10
+        self.num_inference_steps = 50
         self.seed = 50
 
     def preload_models_from_standard_weights(self, ckpt_path, device):
